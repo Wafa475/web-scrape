@@ -23,14 +23,16 @@ site = "https://radiomedtunisie.com/category/%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/" # 
 article = []
 titles = []
 types = []
+article1 = []
+titles1 = []
+types1 = []
+full_urls1 = []
 i = 0
 print('************************************************')
 print('*********************start *********************')
 print('************************************************')
-
-
-    
-   for j in range(10) : #we can vary the number of items scraped using this loop example here I put 10 ie I can scraped 100 items, 5 gives 50 items ect
+for j in range(10) : #we can vary the number of items scraped using this loop example here I put 4 ie I can scraped 40 items, 5 gives 50 items ect
+   
    resultat = requests.get(site) 
    resultat.status_code
    #if status_code == 200 everything is OK
@@ -39,13 +41,15 @@ print('************************************************')
    w1 = soup.find_all(class_ = 'the-next-page')
    a1 = BeautifulSoup(str(w1), "html.parser")
    a11 = a1.find('a')
-   site=a11.get('href') #get the next page url
+   site=a11.get('href')
    w = soup.find_all(class_ = 'post-title')
    a = BeautifulSoup(str(w), "html.parser")
    links = a.find_all('a')
    # Extract all links
    relative_urls = [link.get('href') for link in links]
    full_urls = [urljoin(site, url) for url in relative_urls]
+   
+
 
    for url in full_urls:
     
@@ -61,31 +65,42 @@ print('************************************************')
     content = soup1.find_all('div' , class_ = 'entry-content entry clearfix')
     ar = BeautifulSoup(str(content), "html.parser")
     artic = ar.find_all('p')
+    
     # find titles
     title = soup1.find('h1' , class_='post-title entry-title')
+    
     
     # find the type
     type1 = soup1.find_all('span', class_='post-cat-wrap')
     tp = BeautifulSoup(str(type1), "html.parser")
     type2 = tp.text
+    types.append(type2)
     # Transforming to text and cleaning every desired element in the page
     art = [(p.text).replace('\n','').replace('\t','').replace('\r','') for p in artic]
+    article.append(art)
     tit = [(t.string).replace('\n','').replace('\t','').replace('\r','') for t in title]
+    titles.append(tit)
     print('the title')
     print(tit)
     print('the type')
     print(type2)
     print('the article')
     print(art)
-    
-    article.append(art)
-    titles.append(tit)
-    types.append(type2)
-    
     i = i+1
+   full_urls1 = full_urls1 + full_urls
+   article1= article1 + article
+   titles1= titles1 + titles
+   types1=types1+types
+
+ 
+ 
+  
+  
+  
 print('***********************************************************')   
 print('****************************Finish*************************')
 print('***********************************************************')
-df = pd.DataFrame(list(zip(full_urls, titles, article, types)), columns =['link', 'titles', 'article', 'type'])
+
+df = pd.DataFrame(list(zip(full_urls1, titles1, article1, types1)), columns =['link', 'titles', 'article', 'type'])
 df.to_csv(r'radiomed.csv' ,encoding='utf-8-sig')
 
