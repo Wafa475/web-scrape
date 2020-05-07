@@ -39,7 +39,7 @@ print('************************************************')
    w1 = soup.find_all(class_ = 'the-next-page')
    a1 = BeautifulSoup(str(w1), "html.parser")
    a11 = a1.find('a')
-   site=a11.get('href')
+   site=a11.get('href') #get the next page url
    w = soup.find_all(class_ = 'post-title')
    a = BeautifulSoup(str(w), "html.parser")
    links = a.find_all('a')
