@@ -21,13 +21,10 @@ import pandas as pd
 """set site url"""
 
 site = "https://radiomedtunisie.com/category/%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/" # set site url
-resultat = requests.get(site) 
-resultat.status_code
-   
-#if status_code == 200 everything is OK
+
 
 """define the useful part of html code"""
-
+"""
 source = resultat.text # Extracting the code HTML
 soup = BeautifulSoup(source,'html.parser') # Convert HTML to a BeautifulSoup object
 w = soup.find_all(class_ = 'post-title')
@@ -36,7 +33,7 @@ links = a.find_all('a')
  # Extract all links
 relative_urls = [link.get('href') for link in links]
 full_urls = [urljoin(site, url) for url in relative_urls]
-
+"""
 article = []
 titles = []
 types = []
@@ -44,8 +41,27 @@ i = 0
 print('************************************************')
 print('*********************start *********************')
 print('************************************************')
-# Loop through each URL in note_urls
+
 for url in full_urls:
+    
+   for j in range(10) : #we can vary the number of items scraped using this loop example here I put 10 ie I can scraped 100 items, 5 gives 50 items ect
+   resultat = requests.get(site) 
+   resultat.status_code
+   #if status_code == 200 everything is OK
+   source = resultat.text # Extracting the code HTML
+   soup = BeautifulSoup(source,'html.parser') # Convert HTML to a BeautifulSoup object
+   w1 = soup.find_all(class_ = 'the-next-page')
+   a1 = BeautifulSoup(str(w1), "html.parser")
+   a11 = a1.find('a')
+   site=a11.get('href')
+   w = soup.find_all(class_ = 'post-title')
+   a = BeautifulSoup(str(w), "html.parser")
+   links = a.find_all('a')
+   # Extract all links
+   relative_urls = [link.get('href') for link in links]
+   full_urls = [urljoin(site, url) for url in relative_urls]
+
+   for url in full_urls:
     
     # connect to every webpage
     page = requests.get(url)
@@ -86,3 +102,4 @@ print('****************************Finish*************************')
 print('***********************************************************')
 df = pd.DataFrame(list(zip(full_urls, titles, article, types)), columns =['link', 'titles', 'article', 'type'])
 df.to_csv(r'radiomed.csv' ,encoding='utf-8-sig')
+
