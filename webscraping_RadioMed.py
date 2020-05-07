@@ -141,7 +141,7 @@ for j in range(2) : #we can vary the number of items scraped using this loop exa
    a1 = BeautifulSoup(str(w1), "html.parser")
    a11 = a1.find('a')
    site=a11.get('href')
-   w = soup.find_all(class_ = 'mag-box-container clearfix')
+   w = soup.find_all(class_ = 'post-title')
    a = BeautifulSoup(str(w), "html.parser")
    links = a.find_all('a')
    # Extract all links
