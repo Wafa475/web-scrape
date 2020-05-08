@@ -19,7 +19,7 @@ import pandas as pd
 site = "https://radiomedtunisie.com/category/%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/" # set site url
 
 
-"""define the useful part of html code"""
+
 
 article = []
 titles = []
@@ -32,11 +32,12 @@ i = 0
 print('************************************************')
 print('*********************start *********************')
 print('************************************************')
-for j in range(10) : #we can vary the number of items scraped using this loop example here I put 4 ie I can scraped 40 items, 5 gives 50 items ect
+for j in range(10) : #we can vary the number of articles scraped using this loop example here I put 10 ie I can scraped 100 articles, 5 gives 50 articles ect
    
    resultat = requests.get(site) 
    resultat.status_code
    #if status_code == 200 everything is OK
+   """define the useful part of html code"""
    source = resultat.text # Extracting the code HTML
    soup = BeautifulSoup(source,'html.parser') # Convert HTML to a BeautifulSoup object
    w1 = soup.find_all(class_ = 'the-next-page')
@@ -130,7 +131,7 @@ i = 0
 print('************************************************')
 print('*********************start *********************')
 print('************************************************')
-for j in range(2) : #we can vary the number of items scraped using this loop example here I put 4 ie I can scraped 40 items, 5 gives 50 items ect
+for j in range(2) : #we can vary the number of articles scraped using this loop example here I put 2 ie I can scraped 20 articles, 5 gives 50 articles ect
    
    resultat = requests.get(site) 
    resultat.status_code
